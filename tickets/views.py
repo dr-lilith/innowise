@@ -37,6 +37,27 @@ def ticket_list(request):
 
 
 @api_view(['GET'])
+@permission_classes([p.AllowAny, ])
+def ticket_unresolved_list(request):
+    tickets = Ticket.objects.filter(is_deleted=False, state='unresolved').values()
+    return Response(tickets, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([p.AllowAny, ])
+def ticket_resolved_list(request):
+    tickets = Ticket.objects.filter(is_deleted=False, state='resolved').values()
+    return Response(tickets, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([p.AllowAny, ])
+def ticket_frozen_list(request):
+    tickets = Ticket.objects.filter(is_deleted=False, state='frozen').values()
+    return Response(tickets, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
 @permission_classes([p.IsAuthenticated, ])
 def my_tickets(request):
     user = request.user
