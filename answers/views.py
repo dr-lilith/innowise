@@ -30,6 +30,8 @@ def answer_new(request):
     serializer.is_valid(raise_exception=True)
     ticket_id = request.data.get("ticket_id")
     ticket = get_object_or_404(Ticket, id=ticket_id)
+    if ticket.author.id != request.user.id and not request.user.is_superuser:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     serializer.save(author=request.user, ticket=ticket)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -38,8 +40,8 @@ def answer_new(request):
 @permission_classes([p.IsAuthenticated, ])
 def answer_edit(request, id):
     answer = get_object_or_404(Answer, id=id)
-    if answer.author.id != request.user.id:
-        return Response({}, status=status.HTTP_403_FORBIDDEN)
+    if answer.author.id != request.user.id and not request.user.is_superuser:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     serializer = AnswerUpdateSerializer(answer, data=request.data)
     serializer.is_valid(raise_exception=True)
     serializer.save()
@@ -58,6 +60,8 @@ def ticket_answers(request, id):
 @permission_classes([p.IsAuthenticated, ])
 def answer_delete(request, id):
     answer = get_object_or_404(Answer, id=id)
+    if answer.author.id != request.user.id and not request.user.is_superuser:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     answer.is_deleted = True
     answer.save()
     return Response(status=status.HTTP_204_NO_CONTENT)

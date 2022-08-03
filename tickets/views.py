@@ -95,6 +95,8 @@ def ticket_new(request):
 @permission_classes([p.IsAuthenticated, ])
 def ticket_edit(request, id):
     ticket = get_object_or_404(Ticket, id=id)
+    if ticket.author.id != request.user.id and not request.user.is_superuser:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     serializer = TicketUpdateSerializer(ticket, data=request.data)
     serializer.is_valid(raise_exception=True)
     serializer.save()
@@ -104,9 +106,11 @@ def ticket_edit(request, id):
 @api_view(['DELETE'])
 @permission_classes([p.IsAuthenticated, ])
 def ticket_delete(request, id):
-    post = get_object_or_404(Ticket, id=id)
-    post.is_deleted = True
-    post.save()
+    ticket = get_object_or_404(Ticket, id=id)
+    if ticket.author.id != request.user.id and not request.user.is_superuser:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    ticket.is_deleted = True
+    ticket.save()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
