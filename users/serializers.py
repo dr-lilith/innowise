@@ -43,4 +43,4 @@ class UploadAvatarSerializer(serializers.ModelSerializer):
 
     class Meta(object):
         model = User
-        fields = ['image']
+        fields = ('image',)

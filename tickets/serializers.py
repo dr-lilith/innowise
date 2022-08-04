@@ -26,4 +26,4 @@ class UploadTicketPhotoSerializer(serializers.ModelSerializer):
 
     class Meta(object):
         model = Ticket
-        fields = ['image']
+        fields = ('image',)
