@@ -20,13 +20,6 @@ class TicketUpdateSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = ('title', 'text', 'state')
 
-    def update(self, ticket, validated_data):
-        ticket.title = validated_data['title']
-        ticket.text = validated_data['text']
-        ticket.state = validated_data['state']
-        ticket.save()
-        return ticket
-
 
 class UploadTicketPhotoSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(source="post_photo", required=True)
