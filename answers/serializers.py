@@ -14,8 +14,3 @@ class AnswerUpdateSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Answer
         fields = ('text',)
-
-    def update(self, answer, validated_data):
-        answer.text = validated_data['text']
-        answer.save()
-        return answer
