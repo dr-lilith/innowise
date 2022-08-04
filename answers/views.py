@@ -1,11 +1,10 @@
 import rest_framework.permissions as p
 from rest_framework.decorators import api_view, permission_classes
-from django.shortcuts import render, get_object_or_404, redirect
-from django.utils import timezone
-from .models import Answer
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import *
+from .serializers import AnswerUpdateSerializer, AnswerSerializer
+from.models import Answer
 
 
 @api_view(['GET'])
