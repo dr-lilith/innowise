@@ -1,6 +1,3 @@
-from users.serializers import UserSerializer
-from tickets.serializers import TicketSerializer
-from rest_framework import serializers
 from rest_framework import serializers
 from.models import *
 
