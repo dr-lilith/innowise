@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 from django.db import models, transaction
-from django.utils import timezone
 from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin, BaseUserManager
 )
@@ -42,15 +41,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     admin-compliant permissions.
 
     """
-    email = models.EmailField(max_length=40, unique=True, null=False)
-    username = models.CharField(max_length=40, unique=True, null=False)
+    email = models.EmailField(max_length=40, unique=True)
+    username = models.CharField(max_length=40, unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     description = models.CharField(max_length=255, blank=True)
-    avatar = models.ImageField(upload_to=upload_to, blank=False, null=False, default='images/noimage-300x300.png')
+    avatar = models.ImageField(upload_to=upload_to, default='images/noimage-300x300.png')
 
     objects = UserManager()
 
