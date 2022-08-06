@@ -4,7 +4,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import AnswerUpdateSerializer, AnswerSerializer
-from.models import Answer
+from .models import Answer
+from tickets.models import Ticket
 
 
 @api_view(['GET'])
