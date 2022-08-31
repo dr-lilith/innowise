@@ -1,9 +1,8 @@
 from rest_framework import serializers
-from.models import User
+from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-
     date_joined = serializers.ReadOnlyField()
 
     class Meta(object):
@@ -14,14 +13,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
-
     date_joined = serializers.ReadOnlyField()
-    password1 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
-    password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
     class Meta(object):
         model = User
-        fields = ('email', 'password1', 'password2', 'username', 'avatar')
+        fields = ('email', 'password', 'username', 'avatar', 'date_joined')
         extra_kwargs = {'password1': {'write_only': True}}
 
     def save(self):
@@ -29,11 +26,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
             email=self.validated_data['email'].lower(),
             username=self.validated_data['username']
         )
-        password1 = self.validated_data['password1']
-        password2 = self.validated_data['password2']
-        if password1 != password2:
-            raise serializers.ValidationError({'password': 'Пароли должны совпадать.'})
-        user.set_password(password1)
+        user.set_password(self.validated_data['password'])
         user.save()
         return user
 

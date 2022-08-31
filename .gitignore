@@ -43,3 +43,4 @@ db.sqlite3
 #node
 node_modules
 /media/images
+/images
